@@ -9,9 +9,7 @@ import Page from "../../common/Page";
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import LoginForm from "../../components/forms/user/LoginForm";
 import Validators from "../../constants/ValidatorTypes";
-import {login} from "../../base/OAuth";
 
 
 class Register extends Page {
