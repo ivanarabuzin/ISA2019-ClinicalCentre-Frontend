@@ -14,7 +14,7 @@ let ROUTES = {
     Home: {
         path: '/',
         component: <Home/>,
-        auth: false
+        auth: true
     },
     Error: {
         path: '/error',
@@ -33,6 +33,11 @@ let ROUTES = {
     },
     Login: {
         path: '/login',
+        component: <Login/>,
+        auth: false
+    },
+    Login: {
+        path: '/register',
         component: <Login/>,
         auth: false
     },

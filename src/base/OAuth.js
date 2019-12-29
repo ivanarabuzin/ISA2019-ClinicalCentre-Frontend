@@ -18,7 +18,7 @@ export async function login(username, password) {
         password: password
     };
 
-    return await request('/oauth/v2/token', data, HttpMethod.GET).then((response) => {
+    return await request('/oauth/token', data, HttpMethod.POST).then((response) => {
 
             if(!response.ok) {
                 return response;
@@ -26,7 +26,7 @@ export async function login(username, password) {
 
             setTokenToLocalStorage(response.data.access_token, response.data.refresh_token);
 
-            return request('/api/users/current').then((response) => {
+            return request('/api/user/current').then((response) => {
 
                 if(response.data.user) {
 
