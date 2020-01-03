@@ -14,7 +14,7 @@ import MoreVert from '@material-ui/icons/MoreVert';
 import UndoIcon from '@material-ui/icons/Undo';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-class UserList extends TablePage {
+class RecordList extends TablePage {
 
     tableDescription = [
         { key: 'email', label: strings.userList.email },
@@ -171,4 +171,4 @@ function mapStateToProps({ menuReducers })
     return { menu: menuReducers };
 }
 
-export default withSnackbar(withRouter(connect(mapStateToProps, mapDispatchToProps)(UserList)));
+export default withSnackbar(withRouter(connect(mapStateToProps, mapDispatchToProps)(RecordList)));
