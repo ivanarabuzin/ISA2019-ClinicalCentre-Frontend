@@ -9,6 +9,15 @@ import { isUserLoggedIn } from "./base/OAuth";
 import Login from "./pages/user/Login";
 import Lock from "./pages/user/Lock";
 import UserList from "./pages/admin/users/UserList";
+import ClinicList from './pages/ClinicList';
+import RecordList from './pages/RecordList';
+import Registration from './pages/user/Registration';
+import UserConfirmation from './pages/user/UserConfirmation';
+import Profile from './pages/user/Profile';
+import SurgeryList from './pages/SurgeryList';
+import UnconfirmedUsers from './pages/UnconfirmedUsers';
+import AppointmentList from './pages/AppointmentList';
+import DoctorTermin from './pages/DoctorTermin';
 
 let ROUTES = {
     Home: {
@@ -36,9 +45,14 @@ let ROUTES = {
         component: <Login/>,
         auth: false
     },
-    Login: {
+    Register: {
         path: '/register',
-        component: <Login/>,
+        component: <Registration/>,
+        auth: false
+    },
+    UserConfirmation: {
+        path: '/userConfirmation',
+        component: <UserConfirmation/>,
         auth: false
     },
     Lock: {
@@ -51,6 +65,43 @@ let ROUTES = {
         component: <UserList showFilter={ false }/>,
         auth: true
     },
+    EditProfile: {
+        path: '/profile',
+        component: <Profile/>,
+        auth: true
+    },
+    ClinicList: {
+        path: '/clinics',
+        component: <ClinicList showFilter={ false }/>,
+        auth: true
+    },
+    RecordList: {
+        path: '/records',
+        component: <RecordList showFilter={ false }/>,
+        auth: true
+    },
+    SurgeryList: {
+        path: '/surgeries',
+        component: <SurgeryList showFilter={ false }/>,
+        auth: true
+    },
+    UnconfirmedUsers: {
+        path: '/unconfirmed-users',
+        component: <UnconfirmedUsers showFilter={ false }/>,
+        auth: true
+    }, 
+    AppointmentList: {
+        path: '/appointments',
+        component: <AppointmentList showFilter={ false }/>,
+        auth: true
+    },
+    DoctorTerminList: {
+        path: '/termins',
+        component: <DoctorTermin showFilter={ false }/>,
+        auth: true
+    } 
+
+    
 };
 
 export default ROUTES;

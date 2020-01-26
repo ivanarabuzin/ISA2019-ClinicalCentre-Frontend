@@ -1,31 +1,48 @@
 import React from 'react'
-import TablePage from "../../../common/TablePage";
-import {deleteUser, getUsers, restoreUser} from "../../../services/admin/UserAdminService";
+import TablePage from "../common/TablePage";
 import {bindActionCreators} from "redux";
-import * as Actions from "../../../actions/Actions";
+import * as Actions from "../actions/Actions";
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
-import strings from "../../../localization";
-import AddUser from "./AddUser";
+import strings from "../localization";
 import {withSnackbar} from "notistack";
-import {ListItemIcon, ListItemText, Menu, MenuItem, TableCell} from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import MoreVert from '@material-ui/icons/MoreVert';
-import UndoIcon from '@material-ui/icons/Undo';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { getSurgeries } from '../services/SurgeryService';
+import SelectControl from '../components/controls/SelectControl';
+import DrawerWrapper from '../common/DrawerWrapper';
+import PageState from '../constants/PageState';
+import {ListItemIcon, ListItemText, Menu, MenuItem, TableCell, Grid, Paper, Drawer} from "@material-ui/core";
+
 
 class SurgeryList extends TablePage {
 
     tableDescription = [
-        { key: 'email', label: strings.userList.email },
-        { key: 'firstName', label: strings.userList.firstName },
-        { key: 'lastName', label: strings.userList.lastName },
-        { key: 'dateCreated', label: strings.userList.dateCreated, transform: 'renderColumnDate' },
-        { key: 'enabled', label: strings.userList.enabled, transform: 'renderColumnDeleted' }
+        { key: 'description', label: 'Description' },
+        { key: 'hall', label: 'Hall', transform: 'renderColumnHall' },
+        { key: 'doctor', label: 'Doctor', transform: 'renderColumnDoctor' },
+        { key: 'clinic', label: 'Clinic', transform: 'renderColumnClinic' },
+        { key: 'date', label: strings.userList.dateCreated, transform: 'renderColumnDate' }
     ];
 
     constructor(props) {
         super(props);
+
+        this.state.showActions = false;
+
+        this.state.sort = {name: 'description asc', value: 'description,asc'}
+
+        this.state.showAdd = false;
+    }
+
+    renderColumnHall(item) {
+        return item.name;
+    }
+
+    renderColumnClinic(item) {
+        return item.name;
+    }
+
+    renderColumnDoctor(item) {
+        return item.name + ' ' + item.surname;
     }
 
     fetchData() {
@@ -34,10 +51,11 @@ class SurgeryList extends TablePage {
             lockTable: true
         });
 
-        getUsers({
-            page: this.state.searchData.page,
+        getSurgeries({
+            page: this.state.searchData.page - 1,
             perPage: this.state.searchData.perPage,
-            term: this.state.searchData.search.toLowerCase()
+            term: this.state.searchData.search.toLowerCase(),
+            sort: this.state.sort.value
         }).then(response => {
 
             if(!response.ok) {
@@ -45,7 +63,7 @@ class SurgeryList extends TablePage {
             }
 
             this.setState({
-                tableData: response.data.result,
+                tableData: response.data.entities,
                 total: response.data.total,
                 lockTable: false
             });
@@ -57,104 +75,70 @@ class SurgeryList extends TablePage {
     }
 
     getPageHeader() {
-        return <h1>{ strings.userList.pageTitle }</h1>;
+        return <h1>Surgeries</h1>;
     }
 
     renderAddContent() {
-        return <AddUser onCancel={ this.onCancel } onFinish={ this.onFinish }/>
-    }
-
-    delete(item) {
-
-        this.setState({
-            lockTable: true
-        });
-
-        deleteUser(item.id).then(response => {
-
-            if(response && !response.ok) {
-                this.onFinish(null);
-                return;
-            }
-
-            this.props.enqueueSnackbar(strings.userList.userDelete, { variant: 'success' });
-
-            this.onFinish(item);
-            this.cancelDelete();
-
-            this.setState({
-                lockTable: false
-            });
-        });
-    }
-
-    restore(item) {
-
-        this.setState({
-            lockTable: true
-        });
-
-        restoreUser(item.id).then(response => {
-
-            if(response && !response.ok) {
-                this.onFinish(null);
-                return;
-            }
-
-            this.props.enqueueSnackbar(strings.userList.userRestored, { variant: 'success' });
-
-            this.onFinish(item);
-
-            this.setState({
-                lockTable: false
-            });
-        });
+        return ''
     }
 
     renderRowMenu(index, item) {
 
         let ariaOwns = 'action-menu-' + index;
 
-        return(
-            <TableCell>
-                <IconButton
-                    aria-owns={ this.state.anchorEl ? ariaOwns : undefined }
-                    aria-haspopup="true"
-                    onClick={ (event) => this.handleMenuClick(event, ariaOwns) }
-                >
-                    <MoreVert/>
-                </IconButton>
-                {
-                    ariaOwns === this.state.ariaOwns &&
-                    <Menu
-                        id={ ariaOwns }
-                        anchorEl={ this.state.anchorEl }
-                        open={ Boolean(this.state.anchorEl) }
-                        onClose={ () => this.handleMenuClose() }
-                    >
+        return ''
+    }
+
+    onSortChange(event) {
+
+        this.setState({
+            sort: event.target.value
+        }, () => {
+            this.fetchData();
+        });    
+    }
+
+    render() {
+
+        return (
+            <Grid id='table-page'>
+                { this.renderDialog(strings.table.confirmDelete, 'To subscribe to this website, please enter your email address here. We will send\n' +
+                    'updates occasionally.', this.cancelDelete, this.delete) }
+                <div className='header'>
+                    { this.getPageHeader() }
+
+                    <div className='filter-controls' style={{ width: '200px'}}>
+
                         {
-                            !item[this.deletedField] &&
-                            <MenuItem onClick={ () => this.handleMenuDelete(item) }>
-                                <ListItemIcon>
-                                    <DeleteIcon/>
-                                </ListItemIcon>
-                                <ListItemText inset primary={ strings.table.delete }/>
-                            </MenuItem>
-                        }
-                        {
-                            item[this.deletedField] &&
-                            <MenuItem onClick={ () => this.handleRestore(item) }>
-                                <ListItemIcon>
-                                    <UndoIcon/>
-                                </ListItemIcon>
-                                <ListItemText inset primary={ strings.table.undo }/>
-                            </MenuItem>
+                            this.state.showSearch &&
+                            <SelectControl
+                            label='Sort'
+                            style={{ width: '200px'}}
+                            options={[{name: 'description asc', value: 'description,asc'}, {name: 'dateCreated asc', value: 'dateCreated,asc'},
+                            {name: 'description desc', value: 'description,desc'}, {name: 'dateCreated desc', value: 'dateCreated,desc'} ]}
+                            nameKey={'name'}
+                            valueKey={'value'}
+                            selected={this.state.sort}
+                            onChange={(event) => this.onSortChange(event)}
+                            />
                         }
 
-                    </Menu>
-                }
+                        {
+                            this.state.showAdd &&
+                            this.renderTableControls()
+                        }
+                    </div>
+                </div>
+                <Paper md={12}>
+                    { this.renderTable(this.state.tableData) }
+                </Paper>
 
-            </TableCell>
+                <Drawer id='drawer' anchor='right' open={  this.showDrawer() } onClose={ () => this.setPageState(PageState.View) } >
+                    <DrawerWrapper onBack={ () => this.setPageState(PageState.View) }>
+                        { this.renderDrawerContent() }
+                    </DrawerWrapper>
+                </Drawer>
+            </Grid>
         );
     }
 }

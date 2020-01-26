@@ -38,7 +38,7 @@ class Login extends Page {
     componentDidMount() {
 
         if(this.props.auth.user) {
-            this.props.history.push('/');
+            //this.props.history.push('/');
         }
     }
 
@@ -63,7 +63,7 @@ class Login extends Page {
                 return;
             }
 
-            this.props.login(response.data.user);
+            this.props.login(response.data);
 
             this.props.history.push({
                 pathname: this.state.redirectUrl

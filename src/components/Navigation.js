@@ -60,116 +60,55 @@ class Navigation extends Component {
 
                 <div className={ this.getNavigationClass() }>
                     <div className='logo-container'>
-
-                        <div className='logo'>
-                            <SendIcon/>
-                        </div>
                         <div className='title'>
-                            <h2>Some Title</h2>
+                            <h2>ISA</h2>
                         </div>
                     </div>
+                    
                     <List component="nav">
-                        <Link to={'/'} className={ this.isCurrentPath('/') ? 'navigation-link active' : 'navigation-link'} >
+                        <Link to={'/clinics'} className={ this.isCurrentPath('/clinics') ? 'navigation-link active' : 'navigation-link'} >
                             <ListItem className='navigation-item'>
-
-                                <ListItemIcon className='navigation-icon'>
-                                    <SendIcon/>
-                                </ListItemIcon>
-
-                                <ListItemText inset primary='Sent mail' className='navigation-text'/>
-
-                            </ListItem>
-                        </Link>
-                        <Link to={'/'} className={ this.isCurrentPath('/') ? 'navigation-link active' : 'navigation-link'} >
-                            <ListItem className='navigation-item'>
-
-                                <ListItemIcon className='navigation-icon'>
-                                    <SendIcon/>
-                                </ListItemIcon>
-
-                                <ListItemText inset primary='Sent mail' className='navigation-text'/>
-
-                            </ListItem>
-                        </Link>
-                        <Link to={'/'} className={ this.isCurrentPath('/') ? 'navigation-link active' : 'navigation-link'} >
-                            <ListItem className='navigation-item'>
-
-                                <ListItemIcon className='navigation-icon'>
-                                    <SendIcon/>
-                                </ListItemIcon>
-
-                                <ListItemText inset primary='Sent mail' className='navigation-text'/>
-
-                            </ListItem>
-                        </Link>
-                        <Link to={'/'} className={ this.isCurrentPath('/') ? 'navigation-link active' : 'navigation-link'} >
-                            <ListItem className='navigation-item'>
-
-                                <ListItemIcon className='navigation-icon'>
-                                    <SendIcon/>
-                                </ListItemIcon>
-
-                                <ListItemText inset primary='Sent mail' className='navigation-text'/>
-
-                            </ListItem>
-                        </Link>
-                        <ListItem className='navigation-item' button onClick={ () => this.toggleSubmenu('example') } >
-                            <ListItemIcon className='navigation-icon'>
-                                <SendIcon/>
-                            </ListItemIcon>
-
-                            <ListItemText inset primary='Sent mail' className='navigation-text'/>
-                            { this.state.submenu.example ? <ExpandLess className='navigation-icon'/> : <ExpandMore className='navigation-icon'/> }
-                        </ListItem>
-                        <Collapse in={ this.state.submenu.example } timeout="auto" unmountOnExit>
-                            <List component="div" disablePadding className='submenu'>
-                                <Link to={'/'} className={ this.isCurrentPath('/') ? 'navigation-link active' : 'navigation-link'} >
-                                    <ListItem className='navigation-item'>
-
-                                        <ListItemIcon className='navigation-icon'>
-                                            <SendIcon/>
-                                        </ListItemIcon>
-
-                                        <ListItemText inset primary='Sent mail' className='navigation-text'/>
-
-                                    </ListItem>
-                                </Link>
-                                <Link to={'/'} className={ this.isCurrentPath('/') ? 'navigation-link active' : 'navigation-link'} >
-                                    <ListItem className='navigation-item'>
-
-                                        <ListItemIcon className='navigation-icon'>
-                                            <SendIcon/>
-                                        </ListItemIcon>
-
-                                        <ListItemText inset primary='Sent mail' className='navigation-text'/>
-
-                                    </ListItem>
-                                </Link>
-                            </List>
-                        </Collapse>
-                        <Link to={'/'} className={ this.isCurrentPath('/') ? 'navigation-link active' : 'navigation-link'} >
-                            <ListItem className='navigation-item'>
-
-                                <ListItemIcon className='navigation-icon'>
-                                    <SendIcon/>
-                                </ListItemIcon>
-
-                                <ListItemText inset primary='Sent mail' className='navigation-text'/>
-
-                            </ListItem>
-                        </Link>
-                        <Link to={'/'} className={ this.isCurrentPath('/') ? 'navigation-link active' : 'navigation-link'} >
-                            <ListItem className='navigation-item'>
-
-                                <ListItemIcon className='navigation-icon'>
-                                    <SendIcon/>
-                                </ListItemIcon>
-
-                                <ListItemText inset primary='Sent mail' className='navigation-text'/>
-
+                                <ListItemText inset primary='Clinics' className='navigation-text'/>
                             </ListItem>
                         </Link>
                     </List>
+                    <List component="nav">
+                        <Link to={'/profile'} className={ this.isCurrentPath('/profile') ? 'navigation-link active' : 'navigation-link'} >
+                            <ListItem className='navigation-item'>
+                                <ListItemText inset primary='Profile' className='navigation-text'/>
+                            </ListItem>
+                        </Link>
+                    </List>
+                    <List component="nav">
+                        <Link to={'/records'} className={ this.isCurrentPath('/records') ? 'navigation-link active' : 'navigation-link'} >
+                            <ListItem className='navigation-item'>
+                                <ListItemText inset primary='Records' className='navigation-text'/>
+                            </ListItem>
+                        </Link>
+                    </List>
+                    <List component="nav">
+                        <Link to={'/surgeries'} className={ this.isCurrentPath('/surgeries') ? 'navigation-link active' : 'navigation-link'} >
+                            <ListItem className='navigation-item'>
+                                <ListItemText inset primary='Surgery' className='navigation-text'/>
+                            </ListItem>
+                        </Link>
+                    </List>
+                    <List component="nav">
+                        <Link to={'/appointments'} className={ this.isCurrentPath('/appointments') ? 'navigation-link active' : 'navigation-link'} >
+                            <ListItem className='navigation-item'>
+                                <ListItemText inset primary='Appointments' className='navigation-text'/>
+                            </ListItem>
+                        </Link>
+                    </List>
+                    <List component="nav">
+                        <Link to={'/unconfirmed-users'} className={ this.isCurrentPath('/unconfirmed-users') ? 'navigation-link active' : 'navigation-link'} >
+                            <ListItem className='navigation-item'>
+                                <ListItemText inset primary='Unconfirmed users' className='navigation-text'/>
+                            </ListItem>
+                        </Link>
+                    </List>
+                    
+                    
                 </div>
 
 

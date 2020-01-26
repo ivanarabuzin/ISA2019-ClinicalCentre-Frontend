@@ -10,6 +10,9 @@ import Page from "../../common/Page";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Validators from "../../constants/ValidatorTypes";
+import RegistrationForm from '../../components/forms/user/RegistrationForm';
+import { register } from '../../services/UserService';
+
 
 
 class Register extends Page {
@@ -22,7 +25,9 @@ class Register extends Page {
         city: [ {type: Validators.REQUIRED } ],
         country: [ {type: Validators.REQUIRED } ],
         phoneNumber: [ {type: Validators.REQUIRED } ],
-        jbo: [ {type: Validators.REQUIRED } ]
+        jbo: [ {type: Validators.REQUIRED } ],
+        name: [ {type: Validators.REQUIRED } ],
+        surname: [ {type: Validators.REQUIRED } ]
     };
 
     constructor(props) {
@@ -49,13 +54,18 @@ class Register extends Page {
     keyPress(event) {
 
         if(event.key == 'Enter') {
-            this.login()
+            this.register()
         }
     }
 
     register() {
 
         if(!this.validate()) {
+            return;
+        }
+
+        if(this.state.data.password != this.state.data.passwordRepeat) {
+            this.setError('password', 'Password mismatch');
             return;
         }
 
@@ -75,8 +85,7 @@ class Register extends Page {
                 <Grid item md={6}>
                     <Paper className='paper'>
 
-                        <h1>{ strings.login.login }</h1>
-
+                        <h1>Registration</h1>
 
                         <RegistrationForm onSubmit={ () => this.register() } onChange={ this.changeData }
                                    keyPress={ this.keyPress }

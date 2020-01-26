@@ -6,17 +6,27 @@ import {isUserOneOfRoles, isUserRole} from "../util/UserUtil";
 
 /** OAUTH **/
 
+function jsonToFormData(json) {
+    var formData = new FormData();
+  
+    Object.keys(json).forEach(key => {
+      formData.append(key, json[key]);
+    });
+  
+    return formData;
+  }
+
 export async function login(username, password) {
 
     clearUserData();
 
-    let data = {
+    let data = jsonToFormData({
         client_id: CONFIG.clientId,
         client_secret: CONFIG.clientSecret,
         grant_type: 'password',
         username: username,
         password: password
-    };
+    });
 
     return await request('/oauth/token', data, HttpMethod.POST).then((response) => {
 
@@ -28,10 +38,12 @@ export async function login(username, password) {
 
             return request('/api/user/current').then((response) => {
 
-                if(response.data.user) {
+                console.log(response);
 
-                    if(isUserOneOfRoles(response.data.user, CONFIG.rolesAllowed)) {
-                        setUserToLocalStorage(response.data.user)
+                if(response.data) {
+
+                    if(isUserOneOfRoles(response.data, CONFIG.rolesAllowed)) {
+                        setUserToLocalStorage(response.data)
                     }
                     else {
 

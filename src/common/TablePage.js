@@ -61,7 +61,8 @@ class TablePage extends Page {
             selectedItem: undefined,
             pageState: PageState.View,
             showSearch: true,
-            showAdd: true
+            showAdd: true,
+            showActions: true
         };
 
         this.props.changeFullScreen(false);
@@ -304,8 +305,8 @@ class TablePage extends Page {
 
             result.push(
                 <TableRow key={ 'table-row-' + result.length } className={ className } onClick={ () => this.selectRow(item) }>
+                    { this.state.showActions && this.renderRowMenu(result.length, item) }
                     { this.renderTableRowData(item) }
-                    { this.renderRowMenu(result.length, item) }
                 </TableRow>
             )
         }
@@ -333,10 +334,14 @@ class TablePage extends Page {
         return (
             <TableHead className='table-header'>
                 <TableRow>
+                    {
+                        this.state.showActions &&
+                        <TableCell>
+                            { strings.table.actions }
+                        </TableCell>
+                    }
+                    
                     { result }
-                    <TableCell>
-                        { strings.table.actions }
-                    </TableCell>
                 </TableRow>
             </TableHead>
         );

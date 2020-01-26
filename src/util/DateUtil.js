@@ -54,6 +54,6 @@ export function dateToStringDatePickerFormat(date, format = 'MM/DD/YYYY') {
     return moment(date).format(format);
 }
 
-export function dateTimeToString(date, format = 'DD-MM-YYYY HH:MM') {
+export function dateTimeToString(date, format = 'DD-MM-YYYY HH:mm') {
     return moment(date).format(format);
 }

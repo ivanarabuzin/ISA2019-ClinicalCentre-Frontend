@@ -13,7 +13,7 @@ const RegistrationForm = ({
 }) => (
     <form id="login-form" onSubmit={ onSubmit } action = "#">
         <TextField
-            label={ strings.login.email }
+            label='Email'
             error={ hasError(errors, 'email') }
             helperText={ getError(errors, 'email') }
             fullWidth
@@ -26,7 +26,33 @@ const RegistrationForm = ({
         />
 
         <TextField
-            label={ strings.register.address }
+            label='Name'
+            error={ hasError(errors, 'name') }
+            helperText={ getError(errors, 'name') }
+            fullWidth
+            autoFocus
+            name='name'
+            onChange={ onChange }
+            onKeyPress={ keyPress }
+            margin="normal"
+            value={ data.name }
+        />
+
+        <TextField
+            label='Surname'
+            error={ hasError(errors, 'surname') }
+            helperText={ getError(errors, 'surname') }
+            fullWidth
+            autoFocus
+            name='surname'
+            onChange={ onChange }
+            onKeyPress={ keyPress }
+            margin="normal"
+            value={ data.surname }
+        />
+
+        <TextField
+            label='Address'
             error={ hasError(errors, 'address') }
             helperText={ getError(errors, 'address') }
             fullWidth
@@ -39,7 +65,7 @@ const RegistrationForm = ({
         />
 
         <TextField
-            label={ strings.register.city }
+            label='City'
             error={ hasError(errors, 'city') }
             helperText={ getError(errors, 'city') }
             fullWidth
@@ -52,7 +78,7 @@ const RegistrationForm = ({
         />
 
         <TextField
-            label={ strings.register.country }
+            label='Country'
             error={ hasError(errors, 'country') }
             helperText={ getError(errors, 'country') }
             fullWidth
@@ -65,7 +91,7 @@ const RegistrationForm = ({
         />
 
         <TextField
-            label={ strings.register.phoneNumber }
+            label='Phone number'
             error={ hasError(errors, 'phoneNumber') }
             helperText={ getError(errors, 'phoneNumber') }
             fullWidth
@@ -78,7 +104,7 @@ const RegistrationForm = ({
         />
 
         <TextField
-            label={ strings.register.jbo }
+            label='JBO'
             error={ hasError(errors, 'jbo') }
             helperText={ getError(errors, 'jbo') }
             fullWidth
@@ -91,7 +117,7 @@ const RegistrationForm = ({
         />
 
         <TextField
-            label={ strings.register.password }
+            label='Password'
             error={ hasError(errors, 'password') }
             helperText={ getError(errors, 'password') }
             fullWidth
@@ -104,7 +130,7 @@ const RegistrationForm = ({
         />
 
         <TextField
-            label={ strings.register.passwordRepeat }
+            label='Password repeat'
             error={ hasError(errors, 'passwordRepeat') }
             helperText={ getError(errors, 'passwordRepeat') }
             fullWidth
@@ -118,7 +144,7 @@ const RegistrationForm = ({
 
         <div className='submit-container'>
             <Button variant="contained" color="primary" onClick={ onSubmit }>
-                { strings.register.register }
+                { 'Register' }
             </Button>
         </div>
     </form>

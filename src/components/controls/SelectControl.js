@@ -53,7 +53,7 @@ class SelectControl extends BaseControl {
     render() {
 
         return (
-            <div className={'select-control-container' + (this.state.hasError ? ' error' : '')}>
+            <div className={'select-control-container' + (this.state.hasError ? ' error' : '')} style={{ width: '200px;' }}>
                 {
                     this.props.label &&
                     <label>{ this.props.label }</label>
@@ -67,6 +67,8 @@ class SelectControl extends BaseControl {
                     value={this.getValue()}
                     isClearable={ this.props.isClearable }
                     isLoading={this.state.isLoading}
+                    style={{ width: '200px'}}
+                    width='200px'
                 />
 
                 {
