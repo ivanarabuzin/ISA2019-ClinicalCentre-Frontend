@@ -1,6 +1,6 @@
 let CONFIG = {
-    baseUrlAPI: 'http://localhost:8081/api/',
-    baseUrl: 'http://localhost:8081/',
+    baseUrlAPI: 'http://localhost:8082/api/',
+    baseUrl: 'http://localhost:8082/',
     tokenKey: '1stKgorpnoj8mFIsI3sg',
     refreshTokenKey: 'ZJmD63XQFsK6cHUWwN5T',
     clientId: "client_id",

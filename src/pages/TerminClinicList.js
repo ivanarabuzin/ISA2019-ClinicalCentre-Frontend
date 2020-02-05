@@ -5,7 +5,7 @@ import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import strings from "../localization";
 import {withSnackbar} from "notistack";
-import {ListItemIcon, ListItemText, Menu, MenuItem, TableCell, Grid, Paper, Drawer, Button} from "@material-ui/core";
+import {ListItemIcon, ListItemText, Menu, MenuItem, TableCell, Grid, Paper, Drawer} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVert from '@material-ui/icons/MoreVert';
 import UndoIcon from '@material-ui/icons/Undo';
@@ -15,19 +15,17 @@ import { getClinics } from '../services/ClinicService';
 import SelectControl from '../components/controls/SelectControl';
 import DrawerWrapper from '../common/DrawerWrapper';
 import PageState from '../constants/PageState';
-import { getAppointmentTypes } from '../services/AppointmentService';
+import { getAppointmentTypes, getClinicsTermins } from '../services/AppointmentService';
 import DatePickerControl from '../components/controls/DatePickerControl';
 import { stringToDate, dateTimeToString, dateToString } from '../util/DateUtil';
-import TextField from '@material-ui/core/TextField';
 
-class ClinicList extends TablePage {
+class TerminClinicList extends TablePage {
 
     tableDescription = [
-        { key: 'name', label: 'Name' },
+        { key: 'name', label: 'Doctor' },
         { key: 'address', label: 'Address' },
-        { key: 'description', label: 'Description' },
         { key: 'city', label: 'City' },
-        { key: 'phoneNumber', label: 'Phone Number' }
+        { key: 'price', label: 'Price' }
     ];
 
     constructor(props) {
@@ -39,21 +37,35 @@ class ClinicList extends TablePage {
         this.state.types = [];
         this.state.selectedType = {};
         this.state.date = undefined;
-        this.state.city = null;
+    }
+
+    renderColumnType(item) {
+        return item.name;
+    }
+
+    renderColumnDoctor(item) {
+        return item.name + ' ' + item.surname;
+    }
+
+    renderColumnClinic(item) {
+        return item.clinic.name;
+    }
+
+    renderColumnClinicAddress(item) {
+        return item.clinic.address + ',' + item.clinic.city;
     }
 
     fetchData() {
+
+        let type = this.getSearchParam('type');
+        let date = this.getSearchParam('date');
+        let city = this.getSearchParam('city');
 
         this.setState({
             lockTable: true
         });
 
-        getClinics({
-            page: this.state.searchData.page - 1,
-            perPage: this.state.searchData.perPage,
-            term: this.state.searchData.search.toLowerCase(),
-            sort: this.state.sort.value
-        }).then(response => {
+        getClinicsTermins(type, date, city).then(response => {
             
             if(!response.ok) {
                 return;
@@ -68,7 +80,6 @@ class ClinicList extends TablePage {
     }
 
     componentDidMount() {
-        localStorage.removeItem('clinic');
         this.fetchData();
 
         getAppointmentTypes().then(response => {
@@ -90,8 +101,12 @@ class ClinicList extends TablePage {
     }
 
     handleClinicSelect(item) {
-        
-        localStorage.setItem('clinic', item);
+
+        let type = this.getSearchParam('type');
+        let date = this.getSearchParam('date');
+        let city = this.getSearchParam('city');
+
+        this.props.history.push('/termins?type=' + type + '&date=' + date + '&city=' + city + '&clientId=' + item.id );
     }
 
     renderRowMenu(index, item) {
@@ -125,17 +140,6 @@ class ClinicList extends TablePage {
         );
     }
 
-    onSortChange(event) {
-
-        this.setState({
-            sort: event.target.value
-        }, () => {
-            this.fetchData();
-        });
-
-        
-    }
-
     onTypeChange(event) {
 
         this.setState({
@@ -151,19 +155,9 @@ class ClinicList extends TablePage {
         this.setState({
             date: dateToString(event.target.value )
         }, () => {
+            this.fetchData();
+
         });
-    }
-
-    search() {
-        this.props.history.push('/clinics/termins?type=' + this.state.selectedType.id + '&date=' + this.state.date + '&city=' + this.state.city );
-    }
-
-    onChangeCity(event) {
-
-        this.setState({
-            city: event.target.value
-        })
-
     }
 
     render() {
@@ -175,59 +169,31 @@ class ClinicList extends TablePage {
                 <div className='header'>
                     { this.getPageHeader() }
 
-                    <div className='filter-controls'>
+                    <div className='filter-controls' style={{ width: '400px;', display: 'flex'}}>
 
                         {
                             this.state.showSearch &&
                             
                             <React.Fragment>
 
-                                
-                                <div style={{ width: '400px;', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                    <TextField
-                                        label='City'
-                                        name='city'
-                                        onChange={ (e) => this.onChangeCity(e) }
-                                        margin="normal"
-                                        value={ this.state.city }
-                                    />
-
-                                    <DatePickerControl
-                                        label='Date'
-                                        name='Date'
-                                        selected={this.state.date}
-                                        placeholder={this.state.date}
-                                        onChange={(date) => this.onChangeDate(date)}
-                                    />
+                                <DatePickerControl
+                                    label='Date'
+                                    name='Date'
+                                    selected={this.state.date}
+                                    placeholder={this.state.date}
+                                    onChange={(date) => this.onChangeDate(date)}
+                                />
 
 
-                                    <SelectControl
-                                        label='Type'
-                                        style={{ width: '200px'}}
-                                        options={this.state.types}
-                                        nameKey={'name'}
-                                        valueKey={'id'}
-                                        selected={this.state.selectedType}
-                                        onChange={(event) => this.onTypeChange(event)}
-                                    />
-
-                                    <SelectControl
-                                        label='Sort'
-                                        style={{ width: '200px'}}
-                                        options={[{name: 'name asc', value: 'name,asc'}, {name: 'city asc', value: 'city,asc'},
-                                        {name: 'name desc', value: 'name,desc'}, {name: 'city desc', value: 'city,desc'} ]}
-                                        nameKey={'name'}
-                                        valueKey={'value'}
-                                        selected={this.state.sort}
-                                        onChange={(event) => this.onSortChange(event)}
-                                    />
-                                </div>
-                                
-
-                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                    <Button  onClick={() => this.search()}>Search</Button>
-                                </div>
-
+                                <SelectControl
+                                    label='Type'
+                                    style={{ width: '200px'}}
+                                    options={this.state.types}
+                                    nameKey={'name'}
+                                    valueKey={'id'}
+                                    selected={this.state.selectedType}
+                                    onChange={(event) => this.onTypeChange(event)}
+                                />
 
                             </React.Fragment>
                             
@@ -265,4 +231,4 @@ function mapStateToProps({ menuReducers })
     return { menu: menuReducers };
 }
 
-export default withSnackbar(withRouter(connect(mapStateToProps, mapDispatchToProps)(ClinicList)));
+export default withSnackbar(withRouter(connect(mapStateToProps, mapDispatchToProps)(TerminClinicList)));

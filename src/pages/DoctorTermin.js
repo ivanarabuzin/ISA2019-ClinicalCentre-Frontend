@@ -5,7 +5,7 @@ import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import strings from "../localization";
 import {withSnackbar} from "notistack";
-import {ListItemIcon, ListItemText, Menu, MenuItem, TableCell, Grid, Paper, Drawer} from "@material-ui/core";
+import {ListItemIcon, ListItemText, Menu, MenuItem, TableCell, Grid, Paper, Drawer, Button} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVert from '@material-ui/icons/MoreVert';
 import UndoIcon from '@material-ui/icons/Undo';
@@ -15,17 +15,20 @@ import { getClinics } from '../services/ClinicService';
 import SelectControl from '../components/controls/SelectControl';
 import DrawerWrapper from '../common/DrawerWrapper';
 import PageState from '../constants/PageState';
-import { getAppointmentTypes, getTermins } from '../services/AppointmentService';
+import { getAppointmentTypes, getTermins, createAppointmentFromTermin } from '../services/AppointmentService';
 import DatePickerControl from '../components/controls/DatePickerControl';
 import { stringToDate, dateTimeToString, dateToString } from '../util/DateUtil';
+import TextField from '@material-ui/core/TextField';
+
 
 class DoctorTermin extends TablePage {
 
     tableDescription = [
         { key: 'doctor', label: 'Doctor', transform: 'renderColumnDoctor' },
         { key: 'type', label: 'Type', transform: 'renderColumnType' },
-        { key: 'doctor', label: 'Clinic', transform: 'renderColumnClinic' },
-        { key: 'date', label: 'date', transform: 'renderColumnDate' }
+        { key: 'price', label: 'Price' },
+        { key: 'date', label: 'date', transform: 'renderColumnDate' },
+        { key: 'time', label: 'Time' },
     ];
 
     constructor(props) {
@@ -37,6 +40,7 @@ class DoctorTermin extends TablePage {
         this.state.types = [];
         this.state.selectedType = {};
         this.state.date = undefined;
+        this.state.name = '';
     }
 
     renderColumnType(item) {
@@ -51,22 +55,22 @@ class DoctorTermin extends TablePage {
         return item.clinic.name;
     }
 
-    fetchData() {
+    renderColumnClinicAddress(item) {
+        return item.clinic.address + ',' + item.clinic.city;
+    }
 
-        let type = this.getSearchParam('type');
-        let date = this.getSearchParam('date');
+    fetchData() {
 
         this.setState({
             lockTable: true
         });
 
-        getTermins(type, date).then(response => {
+        getTermins(this.state.type, this.state.date, this.state.city, this.state.clientId, this.state.name).then(response => {
             
             if(!response.ok) {
                 return;
             }
 
-            console.log(response.data.entities);
 
             this.setState({
                 tableData: response.data.entities,
@@ -77,20 +81,41 @@ class DoctorTermin extends TablePage {
     }
 
     componentDidMount() {
+
+        this.state.type = this.getSearchParam('type');
+        this.state.date = this.getSearchParam('date');
+        this.state.city = this.getSearchParam('city');
+        this.state.clientId = this.getSearchParam('clientId'); 
+
+
         this.fetchData();
 
         getAppointmentTypes().then(response => {
             
             this.setState({
                 types: response.data.entities,
-                selectedType: response.data.entities[0]
+                selectedType: this.getSelectedType(response.data.entities, this.state.type)
             });
 
         });
     }
 
+    getSelectedType(types, id) {
+
+        
+        for(let type of types) {
+
+            if(type.id == id) {
+                
+                return type;
+            }
+        }
+
+        return null;
+    }
+
     getPageHeader() {
-        return <h1>Clinics</h1>;
+        return <h1>Doctors</h1>;
     }
 
     renderAddContent() {
@@ -98,8 +123,10 @@ class DoctorTermin extends TablePage {
     }
 
     handleClinicSelect(item) {
-        
-        localStorage.setItem('clinic', item);
+
+        createAppointmentFromTermin(item.id).then(response => {
+            console.log(response);
+        });
     }
 
     renderRowMenu(index, item) {
@@ -124,7 +151,7 @@ class DoctorTermin extends TablePage {
                         onClose={ () => this.handleMenuClose() }
                     >
                         <MenuItem onClick={ () => this.handleClinicSelect(item) }>
-                            <ListItemText inset primary='Select'/>
+                            <ListItemText inset primary='Make appointment'/>
                         </MenuItem>
                     </Menu>
                 }
@@ -136,9 +163,8 @@ class DoctorTermin extends TablePage {
     onTypeChange(event) {
 
         this.setState({
-            selectedType: event.target.value
-        }, () => {
-            this.fetchData();
+            selectedType: event.target.value,
+            type: event.target.value.id
         });
     }
 
@@ -147,11 +173,21 @@ class DoctorTermin extends TablePage {
 
         this.setState({
             date: dateToString(event.target.value )
-        }, () => {
-            this.fetchData();
-
         });
     }
+
+    onChangeName(event) {
+
+        this.setState({
+            name: event.target.value
+        })
+
+    }
+
+    search() {
+        this.fetchData();
+    }
+    
 
     render() {
 
@@ -162,31 +198,45 @@ class DoctorTermin extends TablePage {
                 <div className='header'>
                     { this.getPageHeader() }
 
-                    <div className='filter-controls' style={{ width: '400px;', display: 'flex'}}>
+                    <div className='filter-controls's>
 
                         {
                             this.state.showSearch &&
                             
                             <React.Fragment>
 
-                                <DatePickerControl
-                                    label='Date'
-                                    name='Date'
-                                    selected={this.state.date}
-                                    placeholder={this.state.date}
-                                    onChange={(date) => this.onChangeDate(date)}
-                                />
+                                <div style={{ width: '400px;', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                    <TextField
+                                        label='Name'
+                                        name='name'
+                                        onChange={ (e) => this.onChangeName(e) }
+                                        margin="normal"
+                                        value={ this.state.name }
+                                    />
+                                    
+                                    <DatePickerControl
+                                        label='Date'
+                                        name='Date'
+                                        selected={this.state.date}
+                                        placeholder={this.state.date}
+                                        onChange={(date) => this.onChangeDate(date)}
+                                    />
 
+                                    <SelectControl
+                                        label='Type'
+                                        style={{ width: '200px'}}
+                                        options={this.state.types}
+                                        nameKey={'name'}
+                                        valueKey={'id'}
+                                        selected={this.state.selectedType}
+                                        onChange={(event) => this.onTypeChange(event)}
+                                    />
+                                </div>
 
-                                <SelectControl
-                                    label='Type'
-                                    style={{ width: '200px'}}
-                                    options={this.state.types}
-                                    nameKey={'name'}
-                                    valueKey={'id'}
-                                    selected={this.state.selectedType}
-                                    onChange={(event) => this.onTypeChange(event)}
-                                />
+                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Button  onClick={() => this.search()}>Search</Button>
+                                </div>
+                                
 
                             </React.Fragment>
                             

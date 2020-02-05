@@ -9,6 +9,17 @@ export async function getAppointmentTypes(data) {
     return await request('/api/appointmentType/');
 }
 
-export async function getTermins(type, date) {
-    return await request('/api/doctorTermin/' + type + '/' + date);
+export async function getTermins(type, date, city, clientId, name) 
+{
+    name = name ? name : 'null';
+
+    return await request('/api/doctorTermin/' + clientId + '/' + type + '/' + date + '/' + city + '/' + name);
+}
+
+export async function getClinicsTermins(type, date, city) {
+    return await request('/api/doctorTermin/clinics/' + type + '/' + date + '/' + city);
+}
+
+export async function createAppointmentFromTermin(terminId) {
+    return await request('/api/appointment/fromTermin/' + terminId, {}, HttpMethod.POST)
 }

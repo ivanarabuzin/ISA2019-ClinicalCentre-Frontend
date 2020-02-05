@@ -18,6 +18,7 @@ import SurgeryList from './pages/SurgeryList';
 import UnconfirmedUsers from './pages/UnconfirmedUsers';
 import AppointmentList from './pages/AppointmentList';
 import DoctorTermin from './pages/DoctorTermin';
+import TerminClinicList from './pages/TerminClinicList';
 
 let ROUTES = {
     Home: {
@@ -99,8 +100,12 @@ let ROUTES = {
         path: '/termins',
         component: <DoctorTermin showFilter={ false }/>,
         auth: true
-    } 
-
+    },
+    ClinicTerminList: {
+        path: '/clinics/termins',
+        component: <TerminClinicList showFilter={ false }/>,
+        auth: true
+    }  
     
 };
 
