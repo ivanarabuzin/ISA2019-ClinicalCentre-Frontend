@@ -165,7 +165,7 @@ class ClinicList extends TablePage {
                 <div className='header'>
                     { this.getPageHeader() }
 
-                    <div className='filter-controls' style={{ width: '400px;', display: 'flex'}}>
+                    <div className='filter-controls' style={{ width: '400px;', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 
                         {
                             this.state.showSearch &&

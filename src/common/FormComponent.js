@@ -13,7 +13,8 @@ class FormComponent extends BaseComponent {
         this.state = {
             data: {},
             errors: {},
-            showLoader: false
+            showLoader: false,
+            hasChanges: false
         };
 
         this.changeData = this.changeData.bind(this);
@@ -24,7 +25,8 @@ class FormComponent extends BaseComponent {
     changeData(event, data = 'data') {
 
         this.setState({
-            [data]: update(this.state[data], { [event.target.name]: {$set: event.target.value} })
+            [data]: update(this.state[data], { [event.target.name]: {$set: event.target.value} }),
+            hasChanges: true
         });
     }
 
@@ -35,7 +37,8 @@ class FormComponent extends BaseComponent {
         data[field] = !data[field];
 
         this.setState({
-            data
+            data,
+            hasChanges: true
         });
     }
 

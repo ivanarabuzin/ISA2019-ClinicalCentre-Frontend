@@ -43,8 +43,6 @@ class Profile extends Page {
 
     componentDidMount() {
 
-        console.log(this.props.auth);
-
         if(this.props.auth.user) {
             this.setState({
                 data: this.props.auth.user
@@ -72,8 +70,14 @@ class Profile extends Page {
         }
 
         editProfile(this.state.data).then(response => {
+
             this.props.login(response.data);
             setUserToLocalStorage(response.data)
+
+            this.setState({
+                data: response.data,
+                hasChanges: false
+            });
         });
     }
 
@@ -87,9 +91,8 @@ class Profile extends Page {
 
                         <h1>Edit profile</h1>
 
-
                         <ProfileForm onSubmit={ () => this.profile() } onChange={ this.changeData }
-                                   keyPress={ this.keyPress }
+                                   keyPress={ this.keyPress } hasChanges={ this.state.hasChanges }
                                    data={ this.state.data } errors={ this.state.errors }/>
                     </Paper>
                 </Grid>

@@ -28,7 +28,7 @@ const UserDeclineForm = ({
 
         <div className='submit-container'>
             <Button variant="contained" color="primary" onClick={ onSubmit }>
-                { 'Edit profile' }
+                { 'Send' }
             </Button>
         </div>
     </form>

@@ -53,7 +53,7 @@ class SelectControl extends BaseControl {
     render() {
 
         return (
-            <div className={'select-control-container' + (this.state.hasError ? ' error' : '')} style={{ width: '200px;' }}>
+            <div className={'select-control-container' + (this.state.hasError ? ' error' : '')} style={{ minWidth: '200px' }}>
                 {
                     this.props.label &&
                     <label>{ this.props.label }</label>

@@ -9,7 +9,8 @@ const ProfileForm = ({
     onChange,
     errors,
     data,
-    keyPress
+    keyPress,
+    hasChanges
 }) => (
     <form id="login-form" onSubmit={ onSubmit } action = "#">
 
@@ -114,7 +115,7 @@ const ProfileForm = ({
         />
 
         <div className='submit-container'>
-            <Button variant="contained" color="primary" onClick={ onSubmit }>
+            <Button variant="contained" color="primary" onClick={ onSubmit } disabled={!hasChanges}>
                 { 'Edit profile' }
             </Button>
         </div>

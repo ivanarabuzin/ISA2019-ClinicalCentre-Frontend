@@ -61,7 +61,7 @@ class Navigation extends Component {
                 <div className={ this.getNavigationClass() }>
                     <div className='logo-container'>
                         <div className='title'>
-                            <h2>ISA</h2>
+                            <h2>Clinical Centre</h2>
                         </div>
                     </div>
                     
