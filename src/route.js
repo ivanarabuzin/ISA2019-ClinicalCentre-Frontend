@@ -19,6 +19,7 @@ import UnconfirmedUsers from './pages/UnconfirmedUsers';
 import AppointmentList from './pages/AppointmentList';
 import DoctorTermin from './pages/DoctorTermin';
 import TerminClinicList from './pages/TerminClinicList';
+import HallTermin from './pages/HallTermin';
 
 let ROUTES = {
     Home: {
@@ -105,7 +106,12 @@ let ROUTES = {
         path: '/clinics/termins',
         component: <TerminClinicList showFilter={ false }/>,
         auth: true
-    }  
+    },
+    HallTermins: {
+        path: '/hall/termins',
+        component: <HallTermin showFilter={ false }/>,
+        auth: true
+    }    
     
 };
 
