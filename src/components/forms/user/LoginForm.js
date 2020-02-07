@@ -9,7 +9,8 @@ const LoginForm = ({
     onChange,
     errors,
     data,
-    keyPress
+    keyPress,
+    onRegistration
 }) => (
     <form id="login-form" onSubmit={ onSubmit } action = "#">
         <TextField
@@ -41,6 +42,9 @@ const LoginForm = ({
         <div className='submit-container'>
             <Button variant="contained" color="primary" onClick={ onSubmit }>
                 { strings.login.login }
+            </Button>
+            <Button variant="contained" color="primary" onClick={ onRegistration } style={{ marginLeft: '15px' }}>
+                Registration
             </Button>
         </div>
     </form>

@@ -71,6 +71,12 @@ class Login extends Page {
         });
     }
 
+    register() {
+
+        this.props.history.push('/register');
+
+    }
+
     render() {
 
         return (
@@ -83,7 +89,7 @@ class Login extends Page {
 
 
                         <LoginForm onSubmit={ () => this.login() } onChange={ this.changeData }
-                                   keyPress={ this.keyPress }
+                                   keyPress={ this.keyPress } onRegistration={() => this.register()}
                                    data={ this.state.data } errors={ this.state.errors }/>
                     </Paper>
                 </Grid>

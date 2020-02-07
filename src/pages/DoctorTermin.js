@@ -48,6 +48,7 @@ class DoctorTermin extends TablePage {
     }
 
     renderColumnDoctor(item) {
+
         return item.name + ' ' + item.surname;
     }
 

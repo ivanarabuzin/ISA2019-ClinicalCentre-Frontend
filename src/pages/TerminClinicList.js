@@ -22,7 +22,7 @@ import { stringToDate, dateTimeToString, dateToString } from '../util/DateUtil';
 class TerminClinicList extends TablePage {
 
     tableDescription = [
-        { key: 'name', label: 'Doctor' },
+        { key: 'name', label: 'Clinic Name' },
         { key: 'address', label: 'Address' },
         { key: 'city', label: 'City' },
         { key: 'price', label: 'Price' }

@@ -94,6 +94,12 @@ class ClinicList extends TablePage {
         localStorage.setItem('clinic', item);
     }
 
+    handleHallTermins(item) {
+
+        this.props.history.push('/hall/termins?clinicId=' + item.id)
+
+    }
+
     renderRowMenu(index, item) {
 
         let ariaOwns = 'action-menu-' + index;
@@ -117,6 +123,9 @@ class ClinicList extends TablePage {
                     >
                         <MenuItem onClick={ () => this.handleClinicSelect(item) }>
                             <ListItemText inset primary='Select'/>
+                        </MenuItem>
+                        <MenuItem onClick={ () => this.handleHallTermins(item) }>
+                            <ListItemText inset primary='Hall termins'/>
                         </MenuItem>
                     </Menu>
                 }

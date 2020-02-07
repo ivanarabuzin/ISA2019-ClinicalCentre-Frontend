@@ -96,13 +96,6 @@ class Header extends Component {
                         open={ Boolean(this.state.anchorEl) }
                         onClose={ () => this.handleMenuClose() }
                     >
-
-                        <MenuItem onClick={ () => this.lock() }>
-                            <ListItemIcon>
-                                <LockIcon/>
-                            </ListItemIcon>
-                            <ListItemText inset primary={ strings.header.lock }/>
-                        </MenuItem>
                         <MenuItem onClick={ () => this.logout() }>
                             <ListItemIcon>
                                 <ExitToAppIcon/>

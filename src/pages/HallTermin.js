@@ -38,7 +38,7 @@ class HallTermin extends TablePage {
         this.state.showAdd = false;
         this.state.types = [];
         this.state.selectedType = {};
-        this.state.date = undefined;
+        this.state.date = new Date();
         this.state.name = '';
     }
 
@@ -64,7 +64,7 @@ class HallTermin extends TablePage {
             lockTable: true
         });
 
-        getClinicsHallTermins(this.state.clientId, this.state.date).then(response => {
+        getClinicsHallTermins(this.state.clinicId, this.state.date).then(response => {
             
             if(!response.ok) {
                 return;
@@ -81,8 +81,8 @@ class HallTermin extends TablePage {
 
     componentDidMount() {
 
-        this.state.date = this.getSearchParam('date');
-        this.state.clientId = this.getSearchParam('clientId'); 
+        this.state.date = this.getSearchParam('date') ? this.getSearchParam('date') : new Date();
+        this.state.clinicId = this.getSearchParam('clinicId'); 
 
 
         this.fetchData();
@@ -157,10 +157,11 @@ class HallTermin extends TablePage {
 
     onChangeDate(event) {
         
-
         this.setState({
             date: dateToString(event.target.value )
         });
+
+        this.fetchData();
     }
 
     onChangeName(event) {
