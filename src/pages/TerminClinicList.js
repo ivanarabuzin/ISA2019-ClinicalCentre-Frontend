@@ -5,7 +5,7 @@ import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import strings from "../localization";
 import {withSnackbar} from "notistack";
-import {ListItemIcon, ListItemText, Menu, MenuItem, TableCell, Grid, Paper, Drawer} from "@material-ui/core";
+import {ListItemIcon, ListItemText, Menu, MenuItem, TableCell, Grid, Paper, Drawer, Button} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVert from '@material-ui/icons/MoreVert';
 import UndoIcon from '@material-ui/icons/Undo';
@@ -57,15 +57,12 @@ class TerminClinicList extends TablePage {
 
     fetchData() {
 
-        let type = this.getSearchParam('type');
-        let date = this.getSearchParam('date');
-        let city = this.getSearchParam('city');
-
+    
         this.setState({
             lockTable: true
         });
 
-        getClinicsTermins(type, date, city).then(response => {
+        getClinicsTermins(this.state.type, this.state.date, this.state.city).then(response => {
             
             if(!response.ok) {
                 return;
@@ -80,6 +77,11 @@ class TerminClinicList extends TablePage {
     }
 
     componentDidMount() {
+
+        this.state.type = this.getSearchParam('type');
+        this.state.date = this.getSearchParam('date');
+        this.state.city = this.getSearchParam('city');
+
         this.fetchData();
 
         getAppointmentTypes().then(response => {
@@ -143,21 +145,20 @@ class TerminClinicList extends TablePage {
     onTypeChange(event) {
 
         this.setState({
-            selectedType: event.target.value
-        }, () => {
-            this.fetchData();
+            selectedType: event.target.value,
+            type: event.target.value.id
         });
     }
 
     onChangeDate(event) {
         
-
         this.setState({
             date: dateToString(event.target.value )
-        }, () => {
-            this.fetchData();
-
         });
+    }
+
+    search() {
+        this.fetchData();
     }
 
     render() {
@@ -169,35 +170,44 @@ class TerminClinicList extends TablePage {
                 <div className='header'>
                     { this.getPageHeader() }
 
-                    <div className='filter-controls' style={{ width: '400px;', display: 'flex'}}>
+                    <div className='filter-controls'>
 
                         {
                             this.state.showSearch &&
                             
                             <React.Fragment>
 
-                                <DatePickerControl
-                                    label='Date'
-                                    name='Date'
-                                    selected={this.state.date}
-                                    placeholder={this.state.date}
-                                    onChange={(date) => this.onChangeDate(date)}
-                                />
+                                <div style={{ width: '400px;', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                    <DatePickerControl
+                                        label='Date'
+                                        name='Date'
+                                        selected={this.state.date}
+                                        placeholder={this.state.date}
+                                        onChange={(date) => this.onChangeDate(date)}
+                                    />
 
 
-                                <SelectControl
-                                    label='Type'
-                                    style={{ width: '200px'}}
-                                    options={this.state.types}
-                                    nameKey={'name'}
-                                    valueKey={'id'}
-                                    selected={this.state.selectedType}
-                                    onChange={(event) => this.onTypeChange(event)}
-                                />
+                                    <SelectControl
+                                        label='Type'
+                                        style={{ width: '200px'}}
+                                        options={this.state.types}
+                                        nameKey={'name'}
+                                        valueKey={'id'}
+                                        selected={this.state.selectedType}
+                                        onChange={(event) => this.onTypeChange(event)}
+                                    />
 
+                                </div>
+
+
+                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Button  onClick={() => this.search()}>Search</Button>
+                                </div>
                             </React.Fragment>
+
                             
-                        }
+                            
+                        }      
 
                         {
                             this.state.showAdd &&

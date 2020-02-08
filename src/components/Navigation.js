@@ -102,13 +102,22 @@ class Navigation extends Component {
                     </List>
                     {
                         this.props.auth.user && this.props.auth.user.role == 'ADMIN' &&
-                        <List component="nav">
-                            <Link to={'/unconfirmed-users'} className={ this.isCurrentPath('/unconfirmed-users') ? 'navigation-link active' : 'navigation-link'} >
-                                <ListItem className='navigation-item'>
-                                    <ListItemText inset primary='Unconfirmed users' className='navigation-text'/>
-                                </ListItem>
-                            </Link>
-                        </List>
+                        <React.Fragment>
+                            <List component="nav">
+                                <Link to={'/unconfirmed-users'} className={ this.isCurrentPath('/unconfirmed-users') ? 'navigation-link active' : 'navigation-link'} >
+                                    <ListItem className='navigation-item'>
+                                        <ListItemText inset primary='Unconfirmed users' className='navigation-text'/>
+                                    </ListItem>
+                                </Link>
+                            </List>
+                            <List component="nav">
+                                <Link to={'/appointments/uncofirmed'} className={ this.isCurrentPath('/appointments/uncofirmed') ? 'navigation-link active' : 'navigation-link'} >
+                                    <ListItem className='navigation-item'>
+                                        <ListItemText inset primary='Unconfirmed appointments' className='navigation-text'/>
+                                    </ListItem>
+                                </Link>
+                            </List>
+                        </React.Fragment>
                     }
 
                         {

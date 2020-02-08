@@ -20,6 +20,7 @@ import AppointmentList from './pages/AppointmentList';
 import DoctorTermin from './pages/DoctorTermin';
 import TerminClinicList from './pages/TerminClinicList';
 import HallTermin from './pages/HallTermin';
+import UnconfirmedAppointments from './pages/UnconfirmedAppointments';
 
 let ROUTES = {
     Home: {
@@ -111,8 +112,12 @@ let ROUTES = {
         path: '/hall/termins',
         component: <HallTermin showFilter={ false }/>,
         auth: true
-    }    
-    
+    },
+    UnconfirmedAppointments: {
+        path: '/appointments/uncofirmed',
+        component: <UnconfirmedAppointments showFilter={ false }/>,
+        auth: true
+    }
 };
 
 export default ROUTES;

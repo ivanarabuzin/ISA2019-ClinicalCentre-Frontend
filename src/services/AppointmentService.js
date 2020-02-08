@@ -5,6 +5,10 @@ export async function getAppointments(data) {
     return await request('/api/appointment/patient', data, HttpMethod.GET);
 }
 
+export async function getUnconfirmedAppointments(data) {
+    return await request('/api/appointment/unconfirmed', data, HttpMethod.GET);
+}
+
 export async function getAppointmentTypes(data) {
     return await request('/api/appointmentType/');
 }
@@ -18,6 +22,10 @@ export async function getTermins(type, date, city, clientId, name)
 
 export async function getClinicsTermins(type, date, city) {
     return await request('/api/doctorTermin/clinics/' + type + '/' + date + '/' + city);
+}
+
+export async function getFreeDoctorTermins(clinicId) {
+    return await request('/api/doctorTermin/free/' + clinicId);
 }
 
 export async function createAppointmentFromTermin(terminId) {

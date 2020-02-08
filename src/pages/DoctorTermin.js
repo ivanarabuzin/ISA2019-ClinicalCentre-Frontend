@@ -126,7 +126,10 @@ class DoctorTermin extends TablePage {
     handleClinicSelect(item) {
 
         createAppointmentFromTermin(item.id).then(response => {
-            console.log(response);
+            
+            this.props.enqueueSnackbar("Request sent", { variant: 'success' });
+            
+            this.fetchData();
         });
     }
 

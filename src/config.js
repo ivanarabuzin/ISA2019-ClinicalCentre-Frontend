@@ -12,7 +12,7 @@ let CONFIG = {
     linkedInClientId: 'LINKEDIN_CLIENT_ID',
     linkedInCliendSecret: 'LINKEDIN_CLIENT_SECRET',
     rowsPerPage: [ 30, 50, 100 ],
-    rolesAllowed: ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'PATIENT']
+    rolesAllowed: ['PATIENT', 'ADMIN']
 };
 
 export default CONFIG;
