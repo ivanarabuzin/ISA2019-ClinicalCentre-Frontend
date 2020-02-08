@@ -11,12 +11,12 @@ import SelectControl from '../components/controls/SelectControl';
 import DrawerWrapper from '../common/DrawerWrapper';
 import PageState from '../constants/PageState';
 import {ListItemIcon, ListItemText, Menu, MenuItem, TableCell, Grid, Paper, Drawer} from "@material-ui/core";
-import { getAppointments, acceptAppointment, rejectAppointment } from '../services/AppointmentService';
+import { getAppointmentsHistory, acceptAppointment, rejectAppointment } from '../services/AppointmentService';
 import IconButton from "@material-ui/core/IconButton";
 import MoreVert from '@material-ui/icons/MoreVert';
 
 
-class AppointmentList extends TablePage {
+class AppointmentListHistory extends TablePage {
 
     tableDescription = [
         { key: 'description', label: 'Description' },
@@ -31,7 +31,7 @@ class AppointmentList extends TablePage {
     constructor(props) {
         super(props);
 
-        this.state.showActions = true;
+        this.state.showActions = false;
 
         this.state.sort = {name: 'description asc', value: 'description,asc'}
 
@@ -60,7 +60,7 @@ class AppointmentList extends TablePage {
             lockTable: true
         });
 
-        getAppointments({
+        getAppointmentsHistory({
             page: this.state.searchData.page - 1,
             perPage: this.state.searchData.perPage,
             term: this.state.searchData.search.toLowerCase(),
@@ -209,4 +209,4 @@ function mapStateToProps({ menuReducers })
     return { menu: menuReducers };
 }
 
-export default withSnackbar(withRouter(connect(mapStateToProps, mapDispatchToProps)(AppointmentList)));
+export default withSnackbar(withRouter(connect(mapStateToProps, mapDispatchToProps)(AppointmentListHistory)));

@@ -15,13 +15,13 @@ import { declineUser } from '../services/UserService';
 import UserDeclineForm from '../components/forms/user/UserDeclineForm';
 import ApproveAppointmentForm from '../components/forms/user/ApproveAppointmentForm';
 import { getFreeHallTermins } from '../services/HallTerminService';
-import { getFreeDoctorTermins } from '../services/AppointmentService';
+import { getFreeDoctorTermins, approveAppointment } from '../services/AppointmentService';
 
 class ApproveAppointment extends FormComponent {
 
     validationList = {
-        termin: [ {type: Validators.REQUIRED } ],
-        hall: [ {type: Validators.REQUIRED } ]
+        selectedTermin: [ {type: Validators.REQUIRED } ],
+        selectedHall: [ {type: Validators.REQUIRED } ]
     };
 
     constructor(props) {
@@ -39,20 +39,15 @@ class ApproveAppointment extends FormComponent {
         this.props.changeFullScreen(false);
 
         this.submit = this.submit.bind(this);
+        this.onTerminChange = this.onTerminChange.bind(this);
+        this.onChangeHall = this.onChangeHall.bind(this);
     }
 
     componentDidMount() {
 
-        getFreeHallTermins(this.props.appointment.clinic.id).then(response => {
-
-            
-        });
-
         getFreeDoctorTermins(this.props.appointment.clinic.id).then(response => {
             let termins = response.data.entities;
             termins.push(this.props.appointment.termin)
-
-            console.log(this.props.appointment.termin);
 
             for(let t of termins) {
                 t.description = t.doctor.name + " " + t.doctor.surname + " " + t.date + " " + t.time;
@@ -62,31 +57,91 @@ class ApproveAppointment extends FormComponent {
             this.setState({
                 termins: termins,
                 selectedTermin: this.props.appointment.termin
+            }, () => {
+
+                getFreeHallTermins(this.props.appointment.clinic.id).then(response => {
+                    
+                    let halls = response.data.entities;
+                    let result = [];
+
+                    for(let h of halls) {
+
+                        h.name = h.hall.name;
+
+                        if(h.date == this.state.selectedTermin.date && h.time == this.state.selectedTermin.time) {
+                            result.push(h);
+                        }
+                    }
+                    
+                    this.setState({
+                        halls: result,
+                        selectedHall: result[0]
+                    })
+            
+                });
             });
         });
     }
 
+    onTerminChange(event) {
+
+        this.setState({
+            selectedTermin: event.target.value
+        }, () => {
+            getFreeHallTermins(this.props.appointment.clinic.id).then(response => {
+                    
+                let halls = response.data.entities;
+                let result = [];
+
+                for(let h of halls) {
+
+                    h.name = h.hall.name;
+
+                    if(h.date == this.state.selectedTermin.date && h.time == this.state.selectedTermin.time) {
+                        result.push(h);
+                    }
+                }
+                
+                this.setState({
+                    halls: result,
+                    selectedHall: result[0]
+                })
+        
+            });
+        });
+    }
+
+    onChangeHall(event) {
+
+        this.setState({
+            selectedHall: event.target.value
+        })
+    }
+
     submit() {
 
-        if(!this.validate()) {
+        console.log('test');
+
+        if(!this.state.selectedHall || !this.state.selectedTermin) {
             return;
         }
 
         this.showDrawerLoader();
 
-        // declineUser(this.props.id, this.state.data.message).then(response => {
+        approveAppointment(this.props.appointment.id, this.state.selectedTermin.id, this.state.selectedHall.id).then(response => {
 
-        //     if(!response.ok) {
-        //         this.props.onFinish(null);
-        //         this.props.enqueueSnackbar('Error decline user', { variant: 'error' });
-        //         return;
-        //     }
+            console.log(response);
 
-        //     this.props.enqueueSnackbar('User declined', { variant: 'error' });
-        //     this.props.onFinish(response.data.user);
+            if(!response.ok || !response.data) {
+                this.props.onFinish(null);
+                this.props.enqueueSnackbar("Error", { variant: 'error' });
+                return;
+            }
 
-        //     this.hideDrawerLoader();
-        // });
+            this.props.onFinish(null);
+            this.props.enqueueSnackbar("Success", { variant: 'success' });
+
+        });
     }
 
     render() {
@@ -101,6 +156,9 @@ class ApproveAppointment extends FormComponent {
                 <Paper className='paper'>
                     <ApproveAppointmentForm onChange={ this.changeData } onSubmit={ this.submit }
                                 termins={this.state.termins} termin={this.state.selectedTermin}
+                                halls={this.state.halls} hall={this.state.selectedHall}
+                                onChangeTermin={this.onTerminChange}
+                                onChangeHall={this.onChangeHall}
                                 data={ this.state.data } errors={ this.state.errors } onCancel={ this.props.onCancel }/>
                 </Paper>
 

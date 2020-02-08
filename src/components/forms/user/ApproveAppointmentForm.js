@@ -26,17 +26,17 @@ const ApproveAppointmentForm = ({
             nameKey={'description'}
             valueKey={'id'}
             selected={termin}
-            onChange={(event) => this.onChangeTermin(event)}
+            onChange={(event) => onChangeTermin(event)}
         />
 
         <SelectControl
             label='Hall'
             style={{ width: '200px' }}
-            options={[]}
+            options={halls}
             nameKey={'name'}
             valueKey={'id'}
             selected={hall}
-            onChange={(event) => this.onChangeHall(event)}
+            onChange={(event) => onChangeHall(event)}
         />
 
         <div className='submit-container'>

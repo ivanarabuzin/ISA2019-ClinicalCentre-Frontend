@@ -21,13 +21,14 @@ import DoctorTermin from './pages/DoctorTermin';
 import TerminClinicList from './pages/TerminClinicList';
 import HallTermin from './pages/HallTermin';
 import UnconfirmedAppointments from './pages/UnconfirmedAppointments';
+import AppointmentListHistory from './pages/AppointmentListHistory';
 
 let ROUTES = {
-    Home: {
-        path: '/',
-        component: <Home/>,
-        auth: true
-    },
+    // Home: {
+    //     path: '/',
+    //     component: <Home/>,
+    //     auth: true
+    // },
     Error: {
         path: '/error',
         component: <Error/>,
@@ -74,7 +75,7 @@ let ROUTES = {
         auth: true
     },
     ClinicList: {
-        path: '/clinics',
+        path: '/',
         component: <ClinicList showFilter={ false }/>,
         auth: true
     },
@@ -96,6 +97,11 @@ let ROUTES = {
     AppointmentList: {
         path: '/appointments',
         component: <AppointmentList showFilter={ false }/>,
+        auth: true
+    },
+    AppointmentList: {
+        path: '/appointments/history',
+        component: <AppointmentListHistory showFilter={ false }/>,
         auth: true
     },
     DoctorTerminList: {
