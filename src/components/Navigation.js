@@ -72,41 +72,61 @@ class Navigation extends Component {
                             </ListItem>
                         </Link>
                     </List>
-                    <List component="nav">
-                        <Link to={'/profile'} className={ this.isCurrentPath('/profile') ? 'navigation-link active' : 'navigation-link'} >
-                            <ListItem className='navigation-item'>
-                                <ListItemText inset primary='Profile' className='navigation-text'/>
-                            </ListItem>
-                        </Link>
-                    </List>
-                    <List component="nav">
-                        <Link to={'/records'} className={ this.isCurrentPath('/records') ? 'navigation-link active' : 'navigation-link'} >
-                            <ListItem className='navigation-item'>
-                                <ListItemText inset primary='Records' className='navigation-text'/>
-                            </ListItem>
-                        </Link>
-                    </List>
-                    <List component="nav">
-                        <Link to={'/surgeries'} className={ this.isCurrentPath('/surgeries') ? 'navigation-link active' : 'navigation-link'} >
-                            <ListItem className='navigation-item'>
-                                <ListItemText inset primary='Surgery' className='navigation-text'/>
-                            </ListItem>
-                        </Link>
-                    </List>
-                    <List component="nav">
-                        <Link to={'/appointments'} className={ this.isCurrentPath('/appointments') ? 'navigation-link active' : 'navigation-link'} >
-                            <ListItem className='navigation-item'>
-                                <ListItemText inset primary='Appointments' className='navigation-text'/>
-                            </ListItem>
-                        </Link>
-                    </List>
-                    <List component="nav">
-                        <Link to={'/appointments/history'} className={ this.isCurrentPath('/appointments/history') ? 'navigation-link active' : 'navigation-link'} >
-                            <ListItem className='navigation-item'>
-                                <ListItemText inset primary='Appointments History' className='navigation-text'/>
-                            </ListItem>
-                        </Link>
-                    </List>
+                    {
+                        this.props.auth.user && this.props.auth.user.role != 'ADMIN' &&
+                        <React.Fragment>
+                            <List component="nav">
+                                <Link to={'/profile'} className={ this.isCurrentPath('/profile') ? 'navigation-link active' : 'navigation-link'} >
+                                    <ListItem className='navigation-item'>
+                                        <ListItemText inset primary='Profile' className='navigation-text'/>
+                                    </ListItem>
+                                </Link>
+                            </List>
+                            <List component="nav">
+                                <Link to={'/records'} className={ this.isCurrentPath('/records') ? 'navigation-link active' : 'navigation-link'} >
+                                    <ListItem className='navigation-item'>
+                                        <ListItemText inset primary='Records' className='navigation-text'/>
+                                    </ListItem>
+                                </Link>
+                            </List>
+                            <List component="nav">
+                                <Link to={'/surgeries'} className={ this.isCurrentPath('/surgeries') ? 'navigation-link active' : 'navigation-link'} >
+                                    <ListItem className='navigation-item'>
+                                        <ListItemText inset primary='Surgery' className='navigation-text'/>
+                                    </ListItem>
+                                </Link>
+                            </List>
+                            <List component="nav">
+                                <Link to={'/appointments'} className={ this.isCurrentPath('/appointments') ? 'navigation-link active' : 'navigation-link'} >
+                                    <ListItem className='navigation-item'>
+                                        <ListItemText inset primary='Appointments' className='navigation-text'/>
+                                    </ListItem>
+                                </Link>
+                            </List>
+                            <List component="nav">
+                                <Link to={'/appointments/history'} className={ this.isCurrentPath('/appointments/history') ? 'navigation-link active' : 'navigation-link'} >
+                                    <ListItem className='navigation-item'>
+                                        <ListItemText inset primary='Appointments History' className='navigation-text'/>
+                                    </ListItem>
+                                </Link>
+                            </List>
+                            <List component="nav">
+                                <Link to={'/rate/doctor'} className={ this.isCurrentPath('/rate/doctor') ? 'navigation-link active' : 'navigation-link'} >
+                                    <ListItem className='navigation-item'>
+                                        <ListItemText inset primary='Rate doctors' className='navigation-text'/>
+                                    </ListItem>
+                                </Link>
+                            </List>
+                            <List component="nav">
+                                <Link to={'/rate/clinic'} className={ this.isCurrentPath('/rate/clinic') ? 'navigation-link active' : 'navigation-link'} >
+                                    <ListItem className='navigation-item'>
+                                        <ListItemText inset primary='Rate clinics' className='navigation-text'/>
+                                    </ListItem>
+                                </Link>
+                            </List>
+                        </React.Fragment>
+                    }
+                    
                     {
                         this.props.auth.user && this.props.auth.user.role == 'ADMIN' &&
                         <React.Fragment>
@@ -124,13 +144,13 @@ class Navigation extends Component {
                                     </ListItem>
                                 </Link>
                             </List>
-                            <List component="nav">
+                            {/* <List component="nav">
                                 <Link to={'/hall/termins'} className={ this.isCurrentPath('/hall/termins') ? 'navigation-link active' : 'navigation-link'} >
                                     <ListItem className='navigation-item'>
                                         <ListItemText inset primary='Hall termins' className='navigation-text'/>
                                     </ListItem>
                                 </Link>
-                            </List>
+                            </List> */}
                         </React.Fragment>
                     }
                     

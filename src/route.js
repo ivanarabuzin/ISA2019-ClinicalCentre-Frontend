@@ -22,6 +22,8 @@ import TerminClinicList from './pages/TerminClinicList';
 import HallTermin from './pages/HallTermin';
 import UnconfirmedAppointments from './pages/UnconfirmedAppointments';
 import AppointmentListHistory from './pages/AppointmentListHistory';
+import RateDoctor from './pages/RateDoctor';
+import RateClinic from './pages/RateClinic';
 
 let ROUTES = {
     // Home: {
@@ -99,7 +101,7 @@ let ROUTES = {
         component: <AppointmentList showFilter={ false }/>,
         auth: true
     },
-    AppointmentList: {
+    AppointmentListHistory: {
         path: '/appointments/history',
         component: <AppointmentListHistory showFilter={ false }/>,
         auth: true
@@ -122,6 +124,16 @@ let ROUTES = {
     UnconfirmedAppointments: {
         path: '/appointments/uncofirmed',
         component: <UnconfirmedAppointments showFilter={ false }/>,
+        auth: true
+    },
+    RateDoctor: {
+        path: '/rate/doctor',
+        component: <RateDoctor showFilter={ false }/>,
+        auth: true
+    },
+    RateClinic: {
+        path: '/rate/clinic',
+        component: <RateClinic showFilter={ false }/>,
         auth: true
     }
 };

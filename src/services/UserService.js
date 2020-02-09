@@ -32,3 +32,11 @@ export async function confirmeUser(id) {
 export async function declineUser(id, message) {
     return await request('/api/user/declineUser/' + id + '/' + message, {}, HttpMethod.POST);
 }
+
+export async function getRateDoctors() {
+    return await request('/api/user/rate/list', {}, HttpMethod.GET);
+}
+
+export async function rateDoctor(clinicId, rate) {
+    return await request('/api/user/rate/' + clinicId + '/' + rate.value, {}, HttpMethod.POST);
+}

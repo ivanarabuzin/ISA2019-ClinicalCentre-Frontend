@@ -25,7 +25,8 @@ class TerminClinicList extends TablePage {
         { key: 'name', label: 'Clinic Name' },
         { key: 'address', label: 'Address' },
         { key: 'city', label: 'City' },
-        { key: 'price', label: 'Price' }
+        { key: 'price', label: 'Price' },
+        { key: 'averageRate', label: 'Rate' },
     ];
 
     constructor(props) {

@@ -36,6 +36,8 @@ class AppointmentList extends TablePage {
         this.state.sort = {name: 'description asc', value: 'description,asc'}
 
         this.state.showAdd = false;
+
+        console.log('test');
     }
 
     renderColumnHall(item) {
@@ -80,6 +82,8 @@ class AppointmentList extends TablePage {
     }
 
     componentDidMount() {
+
+       
         this.fetchData();
     }
 

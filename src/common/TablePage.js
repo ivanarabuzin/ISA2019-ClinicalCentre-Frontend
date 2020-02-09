@@ -40,7 +40,7 @@ class TablePage extends Page {
     params = [
         { name: 'search', defaultValue: '' },
         { name: 'page', defaultValue: 1 },
-        { name: 'perPage', defaultValue: 30 }
+        { name: 'perPage', defaultValue: 5 }
     ];
 
     deletedField = 'deleted';

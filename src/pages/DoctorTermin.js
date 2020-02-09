@@ -25,6 +25,7 @@ class DoctorTermin extends TablePage {
 
     tableDescription = [
         { key: 'doctor', label: 'Doctor', transform: 'renderColumnDoctor' },
+        { key: 'doctor', label: 'Rate',  transform: 'renderColumnRate' },
         { key: 'type', label: 'Type', transform: 'renderColumnType' },
         { key: 'price', label: 'Price' },
         { key: 'date', label: 'date', transform: 'renderColumnDate' },
@@ -41,6 +42,10 @@ class DoctorTermin extends TablePage {
         this.state.selectedType = {};
         this.state.date = undefined;
         this.state.name = '';
+    }
+
+    renderColumnRate(item) {
+        return item.averageRate;
     }
 
     renderColumnType(item) {

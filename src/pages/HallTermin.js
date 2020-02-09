@@ -38,7 +38,7 @@ class HallTermin extends TablePage {
         this.state.showAdd = false;
         this.state.types = [];
         this.state.selectedType = {};
-        this.state.date = new Date();
+        this.state.date = dateToString(new Date());
         this.state.name = '';
     }
 
@@ -81,7 +81,7 @@ class HallTermin extends TablePage {
 
     componentDidMount() {
 
-        this.state.date = this.getSearchParam('date') ? this.getSearchParam('date') : new Date();
+        this.state.date = this.getSearchParam('date') ? this.getSearchParam('date') : dateToString(new Date());
         this.state.clinicId = this.getSearchParam('clinicId'); 
 
 
@@ -158,7 +158,7 @@ class HallTermin extends TablePage {
     onChangeDate(event) {
         
         this.setState({
-            date: dateToString(event.target.value )
+            date: event.target.value
         });
 
         this.fetchData();
@@ -202,11 +202,11 @@ class HallTermin extends TablePage {
                                         placeholder={this.state.date}
                                         onChange={(date) => this.onChangeDate(date)}
                                     />
-
+                                    <Button  onClick={() => this.search()}>Search</Button>
                                 </div>
 
                                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                    <Button  onClick={() => this.search()}>Search</Button>
+                                    
                                 </div>
                                 
 

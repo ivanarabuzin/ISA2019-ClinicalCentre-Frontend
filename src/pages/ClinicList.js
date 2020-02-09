@@ -27,7 +27,8 @@ class ClinicList extends TablePage {
         { key: 'address', label: 'Address' },
         { key: 'description', label: 'Description' },
         { key: 'city', label: 'City' },
-        { key: 'phoneNumber', label: 'Phone Number' }
+        { key: 'phoneNumber', label: 'Phone Number' },
+        { key: 'averageRate', label: 'Rate' },
     ];
 
     constructor(props) {
@@ -38,7 +39,7 @@ class ClinicList extends TablePage {
         this.state.showAdd = false;
         this.state.types = [];
         this.state.selectedType = {};
-        this.state.date = undefined;
+        this.state.date = dateToString(new Date());
         this.state.city = null;
     }
 
@@ -50,7 +51,7 @@ class ClinicList extends TablePage {
 
         getClinics({
             page: this.state.searchData.page - 1,
-            perPage: this.state.searchData.perPage,
+            size: this.state.searchData.perPage,
             term: this.state.searchData.search.toLowerCase(),
             sort: this.state.sort.value
         }).then(response => {
@@ -121,9 +122,6 @@ class ClinicList extends TablePage {
                         open={ Boolean(this.state.anchorEl) }
                         onClose={ () => this.handleMenuClose() }
                     >
-                        <MenuItem onClick={ () => this.handleClinicSelect(item) }>
-                            <ListItemText inset primary='Select'/>
-                        </MenuItem>
                         <MenuItem onClick={ () => this.handleHallTermins(item) }>
                             <ListItemText inset primary='Hall termins'/>
                         </MenuItem>
@@ -224,7 +222,9 @@ class ClinicList extends TablePage {
                                         label='Sort'
                                         style={{ width: '200px'}}
                                         options={[{name: 'name asc', value: 'name,asc'}, {name: 'city asc', value: 'city,asc'},
-                                        {name: 'name desc', value: 'name,desc'}, {name: 'city desc', value: 'city,desc'} ]}
+                                        {name: 'rate asc', value: 'averageRate,asc'},
+                                        {name: 'name desc', value: 'name,desc'}, {name: 'city desc', value: 'city,desc'},
+                                        {name: 'rate desc', value: 'averageRate,desc'} ]}
                                         nameKey={'name'}
                                         valueKey={'value'}
                                         selected={this.state.sort}
